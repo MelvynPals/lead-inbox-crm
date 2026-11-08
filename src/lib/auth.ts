@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { connection } from "next/server";
 
 export function equal(a: string, b: string) {
   const left = Buffer.from(a), right = Buffer.from(b);
@@ -22,4 +23,7 @@ export function validSession(token: string | undefined) {
   const [payload, mac, extra] = token.split(".");
   return !extra && !!mac && /^\d+$/.test(payload) && Number(payload) > Date.now() && equal(mac, signature(payload));
 }
-export async function ownerAuthorized() { return validSession((await cookies()).get(cookieName)?.value); }
+export async function ownerAuthorized() {
+  await connection();
+  return validSession((await cookies()).get(cookieName)?.value);
+}
