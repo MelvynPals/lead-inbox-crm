@@ -1,5 +1,7 @@
 # Verification results
 
+The current warm Brightside UI redesign and its latest test results are documented in [REDESIGN-VERIFICATION.md](REDESIGN-VERIFICATION.md). The per-check API and owner contracts below remain verified. Earlier dropdown-specific entries describe the superseded UI.
+
 ## Form refinement verification
 
 Dropdown wrapping follow-up: nine dashboard browser checks pass, including a 150px-wide trigger with 20px popup text. All categories and the checkmark fit on one line without clipping. Filter submission/clearing, editor values, mobile fallback and clean hydration still pass. CSS-only change; build and API smoke were not rerun.

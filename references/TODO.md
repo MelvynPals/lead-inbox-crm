@@ -2,7 +2,7 @@
 
 Done: Postgres migration; exact lead API; validation/auth; sorting/fallback; awaited webhook; public form; owner login/dashboard; API and owner smoke tests; production build.
 Left: owner-managed deployment and real-phone check.
-Current UI redesign: public, login and dashboard complete; required tests and 21 responsive/interaction checks pass. Final gate explanations and handoff in progress.
+Current UI redesign: complete. Required tests, build/typecheck/lint and 21 responsive/interaction checks pass. Every remaining design-gate finding is explained in `REDESIGN-VERIFICATION.md`.
 Blocked: none. Deployment and production environment setup belong to the owner.
 
 - [x] Read BRIEF.md fully and preserve API contract.
@@ -19,5 +19,8 @@ Blocked: none. Deployment and production environment setup belong to the owner.
 - [x] Remove header icon, pair phone/service, and add a styled desktop service selector with Lucide icons and native mobile fallback.
 - [x] Share the responsive dropdown across dashboard filters and lead status editing, preserving empty filter values and standard form submission.
 - [x] Prevent dropdown label wrapping and allow popups to grow to fit the selected checkmark.
+- [x] Redesign public requests, owner login and dashboard with the Brightside warm visual system.
+- [x] Verify radio cards, confirmation/errors, local time, filter toggles and optimistic status failure recovery at 375/768/1280px.
+- [x] Explain all remaining marketing-gate findings individually and document sample branding.
 - [ ] Owner: configure Vercel and run live smoke tests.
 - [ ] Owner: check on a real phone.

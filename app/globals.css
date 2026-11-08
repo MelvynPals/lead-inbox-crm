@@ -1,7 +1,7 @@
 ﻿@import "tailwindcss";
 :root {
  --background:#fbf7f1; --surface:#fffdf9; --white:#fff; --ink:#2b2420; --muted:#6b5e55;
- --line:#eadfd2; --input-border:#a99a8c; --primary:#b64d28; --primary-hover:#943c1e; --primary-soft:#faece3;
+ --line:#eadfd2; --input-border:#9a8979; --primary:#b14a26; --primary-hover:#943c1e; --primary-soft:#faece3;
  --sage:#7a9a7e; --success:#355f3b; --success-soft:#eaf1e7; --error:#a73526; --error-soft:#fbece6;
  --new:#815014; --new-bg:#fcf0d5; --contacted:#3e6070; --contacted-bg:#eaf0f3; --won:#355f3b; --won-bg:#e8f0e5; --lost:#665c54; --lost-bg:#eee9e3;
  --shadow:0 8px 32px #5c3f2410; --radius-card:20px; --radius-control:12px;

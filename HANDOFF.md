@@ -30,6 +30,7 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 ## Assumptions and decisions
 
 - The public form is branded as a sample business, editable in `src/content/business.ts`. Trust points and business hours are sample copy to confirm before real business use.
+- Clay buttons and input borders use slightly darker warm shades than the sample values so small text, selected service labels and control boundaries meet AA contrast. Card borders remain decorative and soft.
 
 - Service is required. Text length checks use trimmed text; storage and responses preserve raw text, including case and whitespace.
 - Phone is free text, optional, max 30 characters; missing phone and note become empty strings.
@@ -52,6 +53,7 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Production build, TypeScript and ESLint pass. API checks ran locally against the configured Neon database; owner checks ran against the production server.
 - The marketing-site design gate is not an acceptance test for this functional form/inbox. It flags absent promotional imagery/motion and full-screen marketing sections. The useful focus/contrast findings were addressed. Mobile browser captures are reviewed separately.
 - Per-check results and remaining design-checker flags are in `references/VERIFICATION.md`. The public form and authenticated dashboard were visually reviewed at 375px. External webhook receipt and paid AI-provider success were not independently confirmed.
+- The Brightside redesign passes all 52 API, 10 owner and 5 unit checks, production build, typecheck and lint, plus 21 browser checks across 375/768/1280px. `references/REDESIGN-VERIFICATION.md` records each check and explains each remaining marketing-gate finding. The gate is not marked as passing.
 
 ## Deploy
 
