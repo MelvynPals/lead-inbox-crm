@@ -15,6 +15,7 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Awaited webhook delivery with a three-second timeout; failures do not undo a save.
 - Unit tests and a contract smoke script. The script retains one lead per run.
 - Public form with per-field errors, pending state and success confirmation.
+- Phone and service share a desktop row. The desktop service dropdown matches the form and uses Lucide icons; the chevron flips when opened. Mobile and coarse-pointer devices keep the native picker. The header brand is text only.
 - Signed httpOnly owner session, logout, protected dashboard, combined filters and status/note editing through server actions. Sessions last eight hours. Cookies are Secure in production and SameSite=Lax. Server actions check the session on every save.
 
 ## Limits
