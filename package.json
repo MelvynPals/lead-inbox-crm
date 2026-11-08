@@ -10,7 +10,8 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "test": "tsx --test src/lib/*.test.ts",
     "smoke": "tsx scripts/smoke.ts",
-    "smoke:owner": "tsx scripts/owner-smoke.ts"
+    "smoke:owner": "tsx scripts/owner-smoke.ts",
+    "smoke:inbox": "tsx scripts/inbox-smoke.ts"
   },
   "dependencies": {
     "lucide-react": "^1.70.0",

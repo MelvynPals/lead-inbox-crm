@@ -1,5 +1,6 @@
 import { existsSync } from "node:fs";
 import assert from "node:assert/strict";
+import { openBrowser } from "./browser";
 
 if (existsSync(".env.local")) process.loadEnvFile(".env.local");
 const base = process.env.BASE_URL ?? "http://localhost:3000";
@@ -56,42 +57,52 @@ async function main() {
   await check("signed session reads dashboard without browser API token", async () => {
     const response = await fetch(`${base}/dashboard`, { headers: { cookie } });
     assert.equal(response.status, 200); dashboard = await response.text();
-    assert.ok(dashboard.includes("Your inbox")); assert.ok(dashboard.includes("Private note"));
+    assert.ok(dashboard.includes("Your inbox")); assert.ok(dashboard.includes("data-lead-id"));
     assert.ok(!dashboard.includes(process.env.API_TOKEN!));
   });
+  let browser: Awaited<ReturnType<typeof openBrowser>> | undefined;
+  let testedId: string | undefined;
   await check("owner saves existing lead through shared validation/query", async () => {
-    const data = form(dashboard, "Private note");
-    const markup = dashboard.match(/<form\b[\s\S]*?<\/form>/g)?.find(value => value.includes("Private note")) ?? "";
-    const id = markup.match(/id="note-(\d+)"/)?.[1]; assert.ok(id);
+    browser = await openBrowser(base, cookie);
+    await browser.wait('document.querySelector(".compact-toggle") && Object.keys(document.querySelector(".compact-toggle")).some(key=>key.startsWith("__reactProps"))');
+    testedId = await browser.evaluate<string>('document.querySelector("[data-lead-id]").dataset.leadId');
     const headers = { authorization: `Bearer ${process.env.API_TOKEN}` };
-    const lead = await (await fetch(`${base}/api/leads/${id}`, { headers })).json();
+    const lead = await (await fetch(`${base}/api/leads/${testedId}`, { headers })).json();
     const note = `Owner smoke verification ${Date.now()}`;
-    data.set("status", "contacted"); data.set("note", note);
     try {
-      const response = await fetch(`${base}/dashboard`, { method: "POST", headers: { cookie, origin: base }, body: data });
-      assert.equal(response.status, 200);
-      const result = await response.text();
-      assert.ok(!result.includes("Unable to save changes."));
-      const saved = await (await fetch(`${base}/api/leads/${id}`, { headers })).json();
+      await browser.evaluate('document.querySelector(".compact-toggle").click()');
+      await browser.wait('document.querySelector(".editor")');
+      await browser.evaluate('[...document.querySelectorAll(".status-pill")].find(button=>button.textContent==="Contacted").click()');
+      await browser.wait('document.querySelector(".status-control").textContent.includes("Saved")');
+      await browser.evaluate(`(() => {const el=document.querySelector('.editor textarea');Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(el,${JSON.stringify(note)});el.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+      await browser.evaluate('document.querySelector(".editor button").click()');
+      await browser.wait('document.querySelector(".editor").textContent.includes("Changes saved.")');
+      assert.equal(await browser.evaluate('Boolean(document.querySelector(".compact-card.is-selected .note-indicator"))'), true);
+      const saved = await (await fetch(`${base}/api/leads/${testedId}`, { headers })).json();
       assert.equal(saved.status, "contacted"); assert.equal(saved.note, note);
     } finally {
-      const response = await fetch(`${base}/api/leads/${id}`, { method: "PATCH", headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify({ status: lead.status, note: lead.note }) });
+      const response = await fetch(`${base}/api/leads/${testedId}`, { method: "PATCH", headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify({ status: lead.status, note: lead.note }) });
       assert.equal(response.status, 200);
     }
   });
   await check("owner mutation rejects missing session", async () => {
-    const data = form(dashboard, "Private note"); data.set("status", "won"); data.set("note", "must not save");
-    const response = await fetch(`${base}/dashboard`, { method: "POST", headers: { origin: base }, body: data });
-    const html = await response.text(); assert.ok(!html.includes("Changes saved."));
-    assert.ok(html.includes("session expired") || html.includes("NEXT_REDIRECT"));
+    assert.ok(browser && testedId);
+    await browser.send("Network.clearBrowserCookies");
+    await browser.evaluate(`(() => {const el=document.querySelector('.editor textarea');Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(el,'must not save');el.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+    await browser.evaluate('document.querySelector(".editor button").click()');
+    await browser.wait('document.querySelector(".editor [role=alert]")?.textContent.includes("session expired")');
+    const saved = await (await fetch(`${base}/api/leads/${testedId}`, { headers: { authorization: `Bearer ${process.env.API_TOKEN}` } })).json();
+    assert.notEqual(saved.note, "must not save");
   });
+  await browser?.close();
   await check("dashboard filters render for authenticated owner", async () => {
     const response = await fetch(`${base}/dashboard?status=new&category=booking`, { headers: { cookie } });
     assert.equal(response.status, 200);
     const html = await response.text();
     assert.ok(html.includes('aria-label="Filter by status"'));
     assert.ok(html.includes('aria-label="Filter by category"'));
-    assert.ok(html.includes('aria-current="true"'));
+    assert.ok(html.includes('aria-pressed="true"'));
+    assert.ok(!html.includes('class="status-control"'));
   });
   await check("logout clears owner cookie", async () => {
     const data = form(dashboard, "Sign out");

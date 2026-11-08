@@ -1,7 +1,16 @@
 "use client";
-import { useState, useId } from "react";
+import { useEffect, useRef, useState } from "react";
 export function LeadMessage({ message }: { message: string }) {
-  const [expanded, setExpanded] = useState(false);
-  const id = useId();
-  return <div><p id={id} className={`message${expanded ? "" : " message-preview"}`}>{message}</p><button type="button" className="text-button" aria-expanded={expanded} aria-controls={id} onClick={() => setExpanded(!expanded)}>{expanded ? "Show less" : "Read full message"}</button></div>;
+  const text = useRef<HTMLSpanElement>(null);
+  const [clamped, setClamped] = useState(false);
+  useEffect(() => {
+    const element = text.current;
+    if (!element) return;
+    const measure = () => setClamped(element.scrollHeight > element.clientHeight + 1);
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    void document.fonts.ready.then(measure);
+    return () => observer.disconnect();
+  }, [message]);
+  return <span className="compact-message"><span ref={text} className="message message-preview">{message}</span>{clamped && <span className="read-message-hint">Read full message</span>}</span>;
 }

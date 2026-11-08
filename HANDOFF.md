@@ -16,9 +16,10 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Unit tests and a contract smoke script. The script retains one lead per run.
 - Public form with per-field errors, pending state and success confirmation.
 - The public form uses four accessible service radio cards, a live message counter and a personalized confirmation with request summary. The sample business header includes a custom home/sun mark.
-- Dashboard status summaries toggle URL filters; status/category chips preserve each other and include All. The chip rows scroll internally on small screens.
-- Lead status saves on change with optimistic feedback and restores the prior value on failure. Private notes save explicitly; the last saved note remains visible. Both use the original session-protected server action.
-- Cards include expandable three-line message previews, email/phone links, warm status/urgency badges and skeleton loading states.
+- The dashboard starts with compact, button-operated request cards: status edges/pills, soft category badges, two-line message previews, one-line relative time and note indicators. Only high urgency shows an Urgent badge. Read full message appears only when overflow is measured.
+- All/New/Contacted/Won/Lost tiles are the only status filters, with pressed state and toggle-to-clear behavior. Category chips retain the other filter. Debounced client-side search matches name, email, phone or message and combines with the URL filters; counts show matching requests out of the current bounded total.
+- At 1024px and above the inbox uses a 420px list and sticky detail pane; below that, one request expands in place. The default desktop pane says Select a request.
+- Status pill buttons save optimistically and revert on failure. Notes have an explicit Save button with saving/saved/error states. The last-saved-note block is removed. Unsaved drafts remain in local state while switching requests or viewport sizes. Both mutations use the original session-protected server action.
 - Dark button hover states use white labels/icons; secondary and text actions retain contrasting foregrounds on light or transparent hover backgrounds.
 - Signed httpOnly owner session, logout, protected dashboard, combined filters and status/note editing through server actions. Sessions last eight hours. Cookies are Secure in production and SameSite=Lax. Server actions check the session on every save.
 
@@ -43,7 +44,8 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - AI has a four-second timeout. Anthropic takes priority if both keys exist; otherwise OpenAI is used. All AI failures fall back to keyword rules. Classification uses the original message; no key is needed.
 - OPTIONS is public for browser preflight. Database failures return a generic JSON error with status 500.
 - Run the migration before deploying. Do not run it during every request or build.
-- Dashboard dates display in the viewer's local timezone, with a timezone label, full date/time and relative age refreshed every minute. A hydration-safe placeholder is used before the browser is ready; API timestamps remain UTC. Filters are URL links and work without JavaScript. The public form and automatic status saving require JavaScript.
+- Dashboard dates display in the viewer's local timezone, with full date/time and timezone in a tooltip on compact cards and visible in the detail pane. Relative age refreshes every minute. A hydration-safe placeholder is used before the browser is ready; API timestamps remain UTC. Category filters are URL links; status tile navigation, expansion, search and saving require JavaScript.
+- Search covers the loaded, server-filtered requests, not older records beyond the existing 500-row query limit. Search text is local and resets on a full page reload; status/category remain in the URL. Long detail panes scroll internally while remaining sticky on desktop.
 - Summary counts describe the latest 500 leads, matching the existing bounded query. Filtered lists still use the existing server query.
 
 ## Verification
@@ -55,6 +57,7 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - The marketing-site design gate is not an acceptance test for this functional form/inbox. It flags absent promotional imagery/motion and full-screen marketing sections. The useful focus/contrast findings were addressed. Mobile browser captures are reviewed separately.
 - Per-check results and remaining design-checker flags are in `references/VERIFICATION.md`. The public form and authenticated dashboard were visually reviewed at 375px. External webhook receipt and paid AI-provider success were not independently confirmed.
 - The Brightside redesign passes all 52 API, 10 owner and 5 unit checks, production build, typecheck and lint, plus 21 browser checks across 375/768/1280px. `references/REDESIGN-VERIFICATION.md` records each check and explains each remaining marketing-gate finding. The gate is not marked as passing.
+- Compact inbox verification is in `references/INBOX-VERIFICATION.md`. Owner smoke now opens the real collapsed editor in Chrome/Edge. `pnpm smoke:inbox` covers search, expansion, responsive panes, draft retention, clamping and failed-save recovery. Set optional `CHROME_PATH` if the browser is not installed in a standard location.
 
 ## Deploy
 

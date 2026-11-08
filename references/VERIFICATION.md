@@ -1,5 +1,7 @@
 # Verification results
 
+The current compact dashboard layout and latest required checks are documented in [INBOX-VERIFICATION.md](INBOX-VERIFICATION.md). Earlier expanded-card and dropdown-specific entries describe superseded UI.
+
 The current warm Brightside UI redesign and its latest test results are documented in [REDESIGN-VERIFICATION.md](REDESIGN-VERIFICATION.md). The per-check API and owner contracts below remain verified. Earlier dropdown-specific entries describe the superseded UI.
 
 ## Form refinement verification
