@@ -68,9 +68,9 @@ async function main() {
     assert.equal(await browser.evaluate('document.querySelectorAll(".editor").length'), 1);
     pass("keyboard expansion and selecting another request keep a single detail view");
     await browser.evaluate("document.querySelector('.compact-toggle .message-preview').textContent='Long message. '.repeat(80)");
-    await browser.wait('document.querySelector(".compact-toggle .read-message-hint")');
+    await browser.wait('document.querySelector(".compact-card:first-child .read-message-hint")');
     await browser.evaluate("document.querySelector('.compact-toggle .message-preview').textContent='Short.'");
-    await browser.wait('document.querySelector(".compact-toggle .read-message-hint")===null');
+    await browser.wait('document.querySelector(".compact-card:first-child .read-message-hint")===null');
     pass("Read full message appears only when overflow is measured");
     for (const field of ["name", "email", "phone", "message"] as const) {
       const value = leads.find(lead => lead[field].trim())?.[field].trim();
@@ -87,10 +87,20 @@ async function main() {
     assert.equal(await browser.evaluate('document.getElementById("inbox-search").value'), "");
     pass("clear search restores the list and count");
     const lead = leads[0];
+    await browser.evaluate('if(document.querySelector(".compact-toggle").getAttribute("aria-expanded")!=="true")document.querySelector(".compact-toggle").click()');
+    await browser.wait('document.querySelector(".editor")');
+    assert.ok(await browser.evaluate(`document.querySelector('.detail-badges').textContent.includes(${JSON.stringify(lead.category[0].toUpperCase() + lead.category.slice(1))})`));
+    assert.ok(await browser.evaluate(`document.querySelector('.detail-badges').textContent.includes(${JSON.stringify(lead.urgency === "high" ? "Urgent" : `${lead.urgency[0].toUpperCase() + lead.urgency.slice(1)} urgency`)})`));
+    await browser.evaluate('window.scrollTo(0,100)');
+    const scroll = await browser.evaluate<number>("window.scrollY");
     await browser.evaluate(`document.querySelector('.summary-tile.status-${lead.status}').click()`);
     await browser.wait(`new URLSearchParams(location.search).get('status')===${JSON.stringify(lead.status)} && !document.querySelector('.summary-tile:disabled')`);
+    assert.equal(await browser.evaluate("window.scrollY"), scroll);
+    assert.equal(await browser.evaluate('Number(document.querySelector(".compact-toggle[aria-expanded=true]").closest("[data-lead-id]").dataset.leadId)'), lead.id);
     await browser.evaluate(`document.querySelector('.chip-row a[href*="category=${lead.category}"]').click()`);
     await browser.wait(`new URLSearchParams(location.search).get('category')===${JSON.stringify(lead.category)} && document.querySelector('.chip[aria-current=true]').textContent===${JSON.stringify(lead.category[0].toUpperCase() + lead.category.slice(1))}`);
+    assert.equal(await browser.evaluate("window.scrollY"), scroll);
+    assert.equal(await browser.evaluate('Number(document.querySelector(".compact-toggle[aria-expanded=true]").closest("[data-lead-id]").dataset.leadId)'), lead.id);
     await setSearch(lead.email.trim());
     const matching = leads.filter(item => item.status === lead.status && item.category === lead.category && [item.name, item.email, item.phone, item.message].some(value => value.toLocaleLowerCase().includes(lead.email.trim().toLocaleLowerCase())));
     await browser.wait(`document.querySelectorAll('[data-lead-id]').length===${matching.length}`);

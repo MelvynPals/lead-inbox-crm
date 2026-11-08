@@ -3,7 +3,7 @@
 Done: Postgres migration; exact lead API; validation/auth; sorting/fallback; awaited webhook; public form; owner login/dashboard; API and owner smoke tests; production build.
 Left: owner-managed deployment and real-phone check.
 Current UI redesign: complete. Required tests, build/typecheck/lint and 21 responsive/interaction checks pass. Every remaining design-gate finding is explained in `REDESIGN-VERIFICATION.md`.
-Compact dashboard refinement: complete. API 52/52, owner 10/10, unit 5/5 and inbox 16/16 checks pass; build/typecheck/lint pass. See `INBOX-VERIFICATION.md`.
+Compact dashboard refinement: complete. API 52/52, owner 10/10, unit 6/6 and inbox 16/16 checks pass; build/typecheck/lint pass. See `INBOX-VERIFICATION.md`.
 Blocked: none. Deployment and production environment setup belong to the owner.
 
 - [x] Read BRIEF.md fully and preserve API contract.
@@ -28,3 +28,6 @@ Blocked: none. Deployment and production environment setup belong to the owner.
 - [x] Consolidate status filters into summary tiles and add debounced client-side inbox search.
 - [ ] Owner: configure Vercel and run live smoke tests.
 - [ ] Owner: check on a real phone.
+
+- [x] Lower webhook timeout to 1500ms with timed failure-isolation coverage.
+- [x] Polish detail badges, reserved per-action feedback, scroll-preserving filters, login retention, note weight, root hydration warning and success-card sizing.

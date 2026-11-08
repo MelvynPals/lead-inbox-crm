@@ -42,6 +42,18 @@ async function main() {
     const response = await fetch(`${base}/login`, { method: "POST", headers: { origin: base }, body: data, redirect: "manual" });
     assert.ok((await response.text()).includes("Email or password is incorrect."));
     assert.ok(!response.headers.get("set-cookie"));
+    const loginBrowser = await openBrowser(base, "lead_owner=invalid");
+    try {
+      await loginBrowser.wait('document.getElementById("password") && Object.keys(document.getElementById("password")).some(key=>key.startsWith("__reactProps"))');
+      assert.equal(await loginBrowser.evaluate('document.getElementById("email").autocomplete'), "username");
+      assert.equal(await loginBrowser.evaluate('document.getElementById("password").autocomplete'), "current-password");
+      await loginBrowser.evaluate("(() => {const el=document.getElementById('email');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(el,'wrong@example.com');el.dispatchEvent(new Event('input',{bubbles:true}));})()");
+      for (let attempt = 0; attempt < 2; attempt++) {
+        await loginBrowser.evaluate("(() => {const el=document.getElementById('password');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(el,'wrong-password');el.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('form.stack button').click();})()");
+        await loginBrowser.wait('document.querySelector(".error-summary") && document.getElementById("password").value==="" && !document.querySelector("form.stack button").disabled');
+        assert.equal(await loginBrowser.evaluate('document.getElementById("email").value'), "wrong@example.com");
+      }
+    } finally { await loginBrowser.close(); }
   });
   let cookie = "";
   await check("correct owner login issues httpOnly SameSite signed session", async () => {
@@ -72,11 +84,19 @@ async function main() {
     try {
       await browser.evaluate('document.querySelector(".compact-toggle").click()');
       await browser.wait('document.querySelector(".editor")');
+      await browser.evaluate("document.fonts.ready");
+      const noteTop = await browser.evaluate<number>('document.querySelector(".editor textarea").getBoundingClientRect().top');
+      assert.equal(await browser.evaluate('getComputedStyle(document.querySelector(".editor textarea")).fontWeight'), "400");
       await browser.evaluate('[...document.querySelectorAll(".status-pill")].find(button=>button.textContent==="Contacted").click()');
       await browser.wait('document.querySelector(".status-control").textContent.includes("Saved")');
+      assert.equal(await browser.evaluate('document.querySelectorAll(".status-control .save-feedback").length'), 1);
+      assert.equal(await browser.evaluate('document.querySelector(".inbox-count").textContent.includes("Saved")'), false);
+      assert.ok(Math.abs(await browser.evaluate<number>('document.querySelector(".editor textarea").getBoundingClientRect().top') - noteTop) < 1, "Status feedback must not shift the note editor.");
       await browser.evaluate(`(() => {const el=document.querySelector('.editor textarea');Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value').set.call(el,${JSON.stringify(note)});el.dispatchEvent(new Event('input',{bubbles:true}));})()`);
       await browser.evaluate('document.querySelector(".editor button").click()');
-      await browser.wait('document.querySelector(".editor").textContent.includes("Changes saved.")');
+      await browser.wait('document.querySelector(".editor [role=status]")?.textContent==="Saved"');
+      assert.equal(await browser.evaluate('document.querySelectorAll(".editor .note-feedback").length'), 1);
+      assert.ok(Math.abs(await browser.evaluate<number>('document.querySelector(".editor textarea").getBoundingClientRect().top') - noteTop) < 1, "Note feedback must not shift the note editor.");
       assert.equal(await browser.evaluate('Boolean(document.querySelector(".compact-card.is-selected .note-indicator"))'), true);
       const saved = await (await fetch(`${base}/api/leads/${testedId}`, { headers })).json();
       assert.equal(saved.status, "contacted"); assert.equal(saved.note, note);
