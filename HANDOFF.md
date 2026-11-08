@@ -17,6 +17,7 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Public form with per-field errors, pending state and success confirmation.
 - Phone and service share a desktop row. The desktop service dropdown matches the form and uses Lucide icons; the chevron flips when opened. Mobile and coarse-pointer devices keep the native picker. The header brand is text only.
 - Dashboard filters and the lead status editor use the same responsive dropdown, including the Lucide chevron and native mobile fallback. All filter options still clear their filter; each dropdown submits one field value.
+- Dropdown labels stay on one line; desktop menus can widen to fit labels and the checkmark.
 - Signed httpOnly owner session, logout, protected dashboard, combined filters and status/note editing through server actions. Sessions last eight hours. Cookies are Secure in production and SameSite=Lax. Server actions check the session on every save.
 
 ## Limits
