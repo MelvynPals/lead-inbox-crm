@@ -51,3 +51,6 @@ next-env.d.ts
 
 # .md files
 BRIEF.md
+
+# real-device check screenshots
+/.mobile-check/
