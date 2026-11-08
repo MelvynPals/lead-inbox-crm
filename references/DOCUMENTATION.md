@@ -2,6 +2,8 @@
 
 Next.js 16 App Router, React, TypeScript, Tailwind CSS and postgres.js. Node 22+ is required for script environment loading.
 
+The warm UI uses CSS design tokens in `app/globals.css`, Fraunces headings and Nunito Sans UI loaded by `next/font`. Sample business copy lives in `src/content/business.ts`.
+
 `pnpm-workspace.yaml` records dependency build approvals. `esbuild` is approved via `pnpm approve-builds`; `sharp` and `unrs-resolver` remain disabled.
 
 The public form pairs phone and service in the existing two-column grid, stacking below 461px. `ResponsiveSelect` is shared by the service field, dashboard filters and lead status editor. It uses Radix Select on fine-pointer screens at least 761px wide and a native select elsewhere. `useSyncExternalStore` keeps its initial render consistent with the server, and selection survives viewport changes. Lucide supplies the centered chevron and selection checkmark; the chevron rotates when open. The shared header uses the text brand without an icon. Filter All options submit an empty string; each selector submits exactly one field value. URL-derived filter values and saved lead statuses reset the selector through React keys. Before hydration, native named selects preserve ordinary form submission.
