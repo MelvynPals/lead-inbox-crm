@@ -2,6 +2,8 @@
 
 ## Form refinement verification
 
+Dashboard dropdown follow-up: eight headless-browser checks pass: empty filter defaults; keyboard selection submits exact status/category values; All options clear filters; lead editor submits one valid status; native mobile controls preserve values and fit 375px; applying filters updates URL and labels; clearing filters restores leads; no hydration warnings. The ten public-form browser checks also pass after sharing the component. Production build, TypeScript and lint pass. No lead edits were saved and no webhook was sent. API smoke was not rerun because API code did not change.
+
 After removing the brand icon, pairing phone/service, and adding Radix Select with Lucide icons, production build, TypeScript and lint pass. Ten headless-browser checks pass: header icon removed; desktop phone/service alignment; linked required-service error; centered Lucide chevron rotated when open; keyboard selection submits exactly one service value; Escape closes, resets the chevron and restores focus; native mobile select preserves selection; mobile changes update the value without horizontal overflow; selection survives returning to desktop; clean-browser hydration has no errors. Mobile viewport: 375px. Only an invalid empty form was submitted; no leads or webhooks were created. API smoke was not rerun because API code did not change. Real-phone picker behavior remains unverified.
 
 Verified locally on 2026-11-08 with the production Next.js build and configured Neon database. API: 52 pass, 0 fail. Owner: 10 pass, 0 fail. Unit tests: 5 pass, 0 fail. Build, TypeScript, ESLint and diff whitespace checks pass.

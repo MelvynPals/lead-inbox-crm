@@ -16,5 +16,6 @@ Blocked: none. Deployment and production environment setup belong to the owner.
 - [x] Finish handoff and validation report.
 - [x] Record esbuild approval from `pnpm approve-builds` for dependency installation.
 - [x] Remove header icon, pair phone/service, and add a styled desktop service selector with Lucide icons and native mobile fallback.
+- [x] Share the responsive dropdown across dashboard filters and lead status editing, preserving empty filter values and standard form submission.
 - [ ] Owner: configure Vercel and run live smoke tests.
 - [ ] Owner: check on a real phone.
