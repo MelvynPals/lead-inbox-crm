@@ -44,6 +44,7 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Unit tests: 5 passed, 0 failed, covering validation/raw text, patch/filter/ID boundaries, keyword rules, session signatures and AI/webhook failure isolation.
 - Production build, TypeScript and ESLint pass. API checks ran locally against the configured Neon database; owner checks ran against the production server.
 - The marketing-site design gate is not an acceptance test for this functional form/inbox. It flags absent promotional imagery/motion and full-screen marketing sections. The useful focus/contrast findings were addressed. Mobile browser captures are reviewed separately.
+- Per-check results and remaining design-checker flags are in `references/VERIFICATION.md`. The public form and authenticated dashboard were visually reviewed at 375px. External webhook receipt and paid AI-provider success were not independently confirmed.
 
 ## Deploy
 
