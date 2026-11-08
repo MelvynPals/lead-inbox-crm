@@ -42,3 +42,4 @@ label,legend{font-size:.93rem;font-weight:750}label{display:flex;flex-direction:
 @keyframes confirmation-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 .reassurance{display:flex;align-items:center;justify-content:center;gap:var(--s2);text-align:center}.reassurance svg{flex-shrink:0;color:var(--success)}
+.header .brand{min-width:0}.header .quiet{padding:var(--s3) var(--s4);flex-shrink:0;white-space:nowrap}.inbox-count{padding-bottom:var(--s4);font-size:.85rem}.save-feedback svg{vertical-align:middle}

@@ -2,7 +2,7 @@
 
 Done: Postgres migration; exact lead API; validation/auth; sorting/fallback; awaited webhook; public form; owner login/dashboard; API and owner smoke tests; production build.
 Left: owner-managed deployment and real-phone check.
-Current UI redesign: warm tokens, fonts and branded public form complete; owner pages and full verification in progress.
+Current UI redesign: public, login and dashboard complete; required tests and 21 responsive/interaction checks pass. Final gate explanations and handoff in progress.
 Blocked: none. Deployment and production environment setup belong to the owner.
 
 - [x] Read BRIEF.md fully and preserve API contract.

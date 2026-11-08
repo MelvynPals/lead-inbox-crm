@@ -16,8 +16,9 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Unit tests and a contract smoke script. The script retains one lead per run.
 - Public form with per-field errors, pending state and success confirmation.
 - The public form uses four accessible service radio cards, a live message counter and a personalized confirmation with request summary. The sample business header includes a custom home/sun mark.
-- Dashboard filters and the lead status editor use the same responsive dropdown, including the Lucide chevron and native mobile fallback. All filter options still clear their filter; each dropdown submits one field value.
-- Dropdown labels stay on one line; desktop menus can widen to fit labels and the checkmark.
+- Dashboard status summaries toggle URL filters; status/category chips preserve each other and include All. The chip rows scroll internally on small screens.
+- Lead status saves on change with optimistic feedback and restores the prior value on failure. Private notes save explicitly; the last saved note remains visible. Both use the original session-protected server action.
+- Cards include expandable three-line message previews, email/phone links, warm status/urgency badges and skeleton loading states.
 - Signed httpOnly owner session, logout, protected dashboard, combined filters and status/note editing through server actions. Sessions last eight hours. Cookies are Secure in production and SameSite=Lax. Server actions check the session on every save.
 
 ## Limits
@@ -40,7 +41,8 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - AI has a four-second timeout. Anthropic takes priority if both keys exist; otherwise OpenAI is used. All AI failures fall back to keyword rules. Classification uses the original message; no key is needed.
 - OPTIONS is public for browser preflight. Database failures return a generic JSON error with status 500.
 - Run the migration before deploying. Do not run it during every request or build.
-- The dashboard displays UTC dates and uses an explicit request-time boundary for session expiry checks with Next.js Cache Components. Filters use a standard GET form and work without JavaScript. The public form requires JavaScript.
+- Dashboard dates display in the viewer's local timezone, with a timezone label, full date/time and relative age refreshed every minute. A hydration-safe placeholder is used before the browser is ready; API timestamps remain UTC. Filters are URL links and work without JavaScript. The public form and automatic status saving require JavaScript.
+- Summary counts describe the latest 500 leads, matching the existing bounded query. Filtered lists still use the existing server query.
 
 ## Verification
 

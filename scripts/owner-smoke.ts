@@ -87,7 +87,11 @@ async function main() {
   });
   await check("dashboard filters render for authenticated owner", async () => {
     const response = await fetch(`${base}/dashboard?status=new&category=booking`, { headers: { cookie } });
-    assert.equal(response.status, 200); assert.ok((await response.text()).includes("Apply filters"));
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    assert.ok(html.includes('aria-label="Filter by status"'));
+    assert.ok(html.includes('aria-label="Filter by category"'));
+    assert.ok(html.includes('aria-current="true"'));
   });
   await check("logout clears owner cookie", async () => {
     const data = form(dashboard, "Sign out");
