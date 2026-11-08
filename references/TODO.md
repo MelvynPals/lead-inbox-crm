@@ -14,5 +14,6 @@ Blocked: none. Deployment and production environment setup belong to the owner.
 - [x] Build signed owner login, protected dashboard, filters, status/note editor.
 - [x] Verify production build and mobile layout.
 - [x] Finish handoff and validation report.
+- [x] Record esbuild approval from `pnpm approve-builds` for dependency installation.
 - [ ] Owner: configure Vercel and run live smoke tests.
 - [ ] Owner: check on a real phone.

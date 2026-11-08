@@ -48,6 +48,8 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 
 ## Deploy
 
+The dependency build approval for `esbuild` is committed in `pnpm-workspace.yaml` after running `pnpm approve-builds`. Existing disabled approvals remain unchanged.
+
 On Vercel, use the Next.js preset, `pnpm install --frozen-lockfile`, and `pnpm build`. Set DATABASE_URL, API_TOKEN, OWNER_EMAIL, OWNER_PASSWORD and SESSION_SECRET. Set WEBHOOK_URL for notifications. ANTHROPIC_API_KEY and OPENAI_API_KEY are optional. Use the Neon connection URL with SSL enabled. Run `pnpm db:migrate` against that database before serving traffic. Verify with `BASE_URL=https://your-app.example pnpm smoke` (PowerShell: `$env:BASE_URL='https://your-app.example'; pnpm smoke`). Do not put secrets in the repo.
 
 ## Next
