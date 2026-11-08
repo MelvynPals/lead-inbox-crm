@@ -38,11 +38,11 @@ curl 'https://lead-inbox-crm.vercel.app/api/leads' -H 'Authorization: Bearer 5ab
 - I verified live lead.created webhook delivery on webhook.site. Delivery failures do not fail the saved lead.
 - The mobile owner dashboard has login protection, status/category filters, status updates, private notes and search.
 - My live checks on 2026-11-09 passed: API 52/52; owner 10/10; no failures. The API test retained one verification lead; the owner test restored its edits.
+- I checked the form, login and dashboard on a real phone (POCO F9 Ultra, Android 16, Chrome 157.0.8103.46) on 2026-11-09. The test left one "Mobile Check" lead in the live inbox, restored to New with no note.
 
 ## What doesn't / not verified
 
 I have not set an AI key on the live deployment, so every lead uses the required keyword fallback. ANTHROPIC_API_KEY or OPENAI_API_KEY enables the supported AI path, but I have not exercised it live.
-I have not checked the UI on a physical phone.
 
 ## Assumptions
 
