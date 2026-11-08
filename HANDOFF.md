@@ -19,6 +19,7 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Dashboard status summaries toggle URL filters; status/category chips preserve each other and include All. The chip rows scroll internally on small screens.
 - Lead status saves on change with optimistic feedback and restores the prior value on failure. Private notes save explicitly; the last saved note remains visible. Both use the original session-protected server action.
 - Cards include expandable three-line message previews, email/phone links, warm status/urgency badges and skeleton loading states.
+- Dark button hover states use white labels/icons; secondary and text actions retain contrasting foregrounds on light or transparent hover backgrounds.
 - Signed httpOnly owner session, logout, protected dashboard, combined filters and status/note editing through server actions. Sessions last eight hours. Cookies are Secure in production and SameSite=Lax. Server actions check the session on every save.
 
 ## Limits

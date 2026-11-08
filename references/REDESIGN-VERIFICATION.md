@@ -1,5 +1,7 @@
 # Brightside UI redesign verification
 
+Hover contrast follow-up: six browser checks pass for primary buttons, select-trigger text/icons, quiet buttons, text actions, toast dismiss buttons and secondary links. Dark clay hovers use white; light and transparent hover states retain contrasting foregrounds. No forms were submitted. CSS-only fix; build and API/owner smoke were not rerun for this follow-up.
+
 The change is confined to UI components, sections, presentation metadata, fonts, styles, business content and the owner smoke script's filter-markup assertion. `app/api/`, `src/lib/` and `app/actions.ts` are unchanged from the previous UI commit. No API contract, validation, sorting, webhook, auth or persistence behavior was changed.
 
 ## Required checks

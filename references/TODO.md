@@ -22,5 +22,6 @@ Blocked: none. Deployment and production environment setup belong to the owner.
 - [x] Redesign public requests, owner login and dashboard with the Brightside warm visual system.
 - [x] Verify radio cards, confirmation/errors, local time, filter toggles and optimistic status failure recovery at 375/768/1280px.
 - [x] Explain all remaining marketing-gate findings individually and document sample branding.
+- [x] Fix shared dark-hover text/icon contrast and preserve readable quiet, text-action and toast hover states.
 - [ ] Owner: configure Vercel and run live smoke tests.
 - [ ] Owner: check on a real phone.

@@ -4,6 +4,8 @@ Next.js 16 App Router, React, TypeScript, Tailwind CSS and postgres.js. Node 22+
 
 The warm UI uses CSS design tokens in `app/globals.css`, Fraunces headings and Nunito Sans UI loaded by `next/font`. Sample business copy lives in `src/content/business.ts`.
 
+Dark clay button hover states explicitly use white foregrounds, including inherited icon colors. Quiet buttons retain ink on their light hover background; text actions and toast dismiss buttons keep their primary/error foreground on transparent backgrounds.
+
 `pnpm-workspace.yaml` records dependency build approvals. `esbuild` is approved via `pnpm approve-builds`; `sharp` and `unrs-resolver` remain disabled.
 
 The public form uses native service radios styled as cards, submitting the same four service enum values. Client validation still calls the shared validation module. Its message counter is informational and does not impose a different raw-text length rule. The shared header uses the Brightside sample business name and home/sun mark. Business name, tagline, contact line and trust copy live in `src/content/business.ts`.
