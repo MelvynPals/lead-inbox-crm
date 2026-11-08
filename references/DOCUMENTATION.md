@@ -2,6 +2,8 @@
 
 Next.js 16 App Router, React, TypeScript, Tailwind CSS and postgres.js. Node 22+ is required for script environment loading.
 
+Submission: the owner's live deployment is https://lead-inbox-crm.vercel.app. Live API smoke passed 52/52 and owner smoke 10/10 on 2026-11-09; per-check results are in `references/LIVE-VERIFICATION.md`. At the owner's explicit request, only the review API_TOKEN and owner login are included in `HANDOFF.md`. Other environment values stay out of tracked files; `.env.local` remains ignored and untracked. Melvyn confirmed webhook.site delivery and that the live deployment has no AI key; AI-provider success remains unverified live.
+
 The warm UI uses CSS design tokens in `app/globals.css`, Fraunces headings and Nunito Sans UI loaded by `next/font`. Sample business copy lives in `src/content/business.ts`.
 
 Dark clay button hover states explicitly use white foregrounds, including inherited icon colors. Quiet buttons retain ink on their light hover background; text actions and toast dismiss buttons keep their primary/error foreground on transparent backgrounds.

@@ -1,5 +1,7 @@
 # Verification results
 
+Submission live results (2026-11-09): API 52/52 and owner 10/10 passed against https://lead-inbox-crm.vercel.app. See [LIVE-VERIFICATION.md](LIVE-VERIFICATION.md) for every individual check. No application code changed during finalization.
+
 The latest polish pass is recorded in [POLISH-VERIFICATION.md](POLISH-VERIFICATION.md): webhook deadline, per-action feedback, scroll retention, failed-login retention and content-sized success cards. Earlier entries describe the UI at their respective commits.
 
 The current compact dashboard layout and latest required checks are documented in [INBOX-VERIFICATION.md](INBOX-VERIFICATION.md). Earlier expanded-card and dropdown-specific entries describe superseded UI.
