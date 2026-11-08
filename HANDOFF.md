@@ -15,7 +15,7 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Awaited webhook delivery with a three-second timeout; failures do not undo a save.
 - Unit tests and a contract smoke script. The script retains one lead per run.
 - Public form with per-field errors, pending state and success confirmation.
-- Phone and service share a desktop row. The desktop service dropdown matches the form and uses Lucide icons; the chevron flips when opened. Mobile and coarse-pointer devices keep the native picker. The header brand is text only.
+- The public form uses four accessible service radio cards, a live message counter and a personalized confirmation with request summary. The sample business header includes a custom home/sun mark.
 - Dashboard filters and the lead status editor use the same responsive dropdown, including the Lucide chevron and native mobile fallback. All filter options still clear their filter; each dropdown submits one field value.
 - Dropdown labels stay on one line; desktop menus can widen to fit labels and the checkmark.
 - Signed httpOnly owner session, logout, protected dashboard, combined filters and status/note editing through server actions. Sessions last eight hours. Cookies are Secure in production and SameSite=Lax. Server actions check the session on every save.
@@ -27,6 +27,8 @@ API token: `<API_TOKEN>`. Real credentials stay in the environment and are share
 - Layout is checked in headless Chrome; real-phone testing remains for the owner.
 
 ## Assumptions and decisions
+
+- The public form is branded as a sample business, editable in `src/content/business.ts`. Trust points and business hours are sample copy to confirm before real business use.
 
 - Service is required. Text length checks use trimmed text; storage and responses preserve raw text, including case and whitespace.
 - Phone is free text, optional, max 30 characters; missing phone and note become empty strings.
